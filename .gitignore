@@ -1,0 +1,6 @@
+node_modules
+.idea
+.sass-cache
+.tmp
+bower_components
+gh-pages

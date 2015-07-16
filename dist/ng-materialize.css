@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 .materialize-red.lighten-5 {
   background-color: #fdeaeb !important;
 }
@@ -10519,11 +10520,16 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   min-width: 100px;
   max-height: 650px;
   overflow-y: auto;
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   white-space: nowrap;
   z-index: 999;
   will-change: width, height;
+  -webkit-transform-origin: 50% 0;
+          transform-origin: 50% 0;
+  transition-property: all;
+  transition-duration: 400ms;
+  transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 .dropdown-content.flat {
   box-shadow: none;
@@ -10558,17 +10564,23 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   display: block;
   padding: 1rem 1rem;
 }
-
-.dropdown-in {
-  transition-property: all;
-  transition-duration: 400ms;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+.dropdown-content.show {
+  display: block;
 }
-
-.dropdown-out {
-  transition-property: all;
+.dropdown-content.show-add, .dropdown-content.show-remove.show-remove-active {
+  opacity: 0;
+  display: block;
+  -webkit-transform: scale(1, 0.5);
+          transform: scale(1, 0.5);
+}
+.dropdown-content.show-remove, .dropdown-content.show-add.show-add-active {
+  opacity: 1;
+  display: block;
+  -webkit-transform: none;
+          transform: none;
+}
+.dropdown-content.show-remove {
   transition-duration: 250ms;
-  transition-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
 }
 
 .input-field {

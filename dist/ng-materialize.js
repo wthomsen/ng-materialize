@@ -1,4 +1,4 @@
-angular.module('ngMaterialize.accordion', ['ngMaterialize.collapse'])
+angular.module('ngMaterialize.accordion', [])
 
 .constant('accordionConfig', {
   closeOthers: true
@@ -196,57 +196,6 @@ angular.module('ngMaterialize.character-counter', [])
       }
     };
   }]);
-'use strict';
-
-angular.module('ngMaterialize.collapse', [])
-  .directive('collapse', ['$animate', function ($animate) {
-    return {
-      link: function (scope, element, attrs) {
-
-        function expand() {
-          element.removeClass('collapse').addClass('collapsing');
-          $animate.addClass(element, 'in', {
-            to: { height: element[0].scrollHeight + 'px' }
-          }).then(expandDone);
-        }
-
-        function expandDone() {
-          element.removeClass('collapsing');
-          element.css({height: 'auto'});
-        }
-
-        function collapse() {
-          element
-            // IMPORTANT: The height must be set before adding "collapsing" class.
-            // Otherwise, the browser attempts to animate from height 0 (in
-            // collapsing class) to the given height here.
-            .css({height: element[0].scrollHeight + 'px'})
-            // initially all panel collapse have the collapse class, this removal
-            // prevents the animation from jumping to collapsed state
-            .removeClass('collapse')
-            .addClass('collapsing');
-
-          $animate.removeClass(element, 'in', {
-            to: {height: '0'}
-          }).then(collapseDone);
-        }
-
-        function collapseDone() {
-          element.css({height: '0'}); // Required so that collapse works when animation is disabled
-          element.removeClass('collapsing');
-          element.addClass('collapse');
-        }
-
-        scope.$watch(attrs.collapse, function (shouldCollapse) {
-          if (shouldCollapse) {
-            collapse();
-          } else {
-            expand();
-          }
-        });
-      }
-    };
-  }]);
 
 angular.module('ngMaterialize.dropdown', [])
 
@@ -385,8 +334,7 @@ angular.module('ngMaterialize.dropdown', [])
 
       scope.$watch('isOpen', function(isOpen, wasOpen) {
 
-        var startCss = {};
-        var endCss = {};
+        var computedCss = {};
         var toggleRect;
         var pos;
 
@@ -394,30 +342,15 @@ angular.module('ngMaterialize.dropdown', [])
           if (isOpen) {
             if (appendToBody) {
               pos = $position.positionElements(self.$element, self.dropdownMenu, 'top-left', true);
-              startCss.top = pos.top + 'px';
-              startCss.left = pos.left + 'px';
+              computedCss.top = pos.top + 'px';
+              computedCss.left = pos.left + 'px';
             }
-
             toggleRect = self.toggleElement[0].getBoundingClientRect();
-            startCss.display = 'block';
-            startCss['min-width'] = toggleRect.width + 'px';
-            startCss[constant.CSS.TRANSFORM_ORIGIN] = '50% 0';
-            startCss[constant.CSS.TRANSFORM] = 'scale(1, 0.5)';
-            endCss.opacity = 1;
-            endCss[constant.CSS.TRANSFORM] = '';
-            self.dropdownMenu.css(startCss);
-
-            $animate.animate(self.dropdownMenu[0], startCss, endCss, 'dropdown-in');
-
-          } else if (!isOpen && wasOpen) {
-            startCss[constant.CSS.TRANSFORM_ORIGIN] = '50% 0';
-            endCss.opacity = 0;
-            endCss[constant.CSS.TRANSFORM] = 'scale(1, 0.5)';
-            self.dropdownMenu.css(startCss);
-            $animate.animate(self.dropdownMenu[0], startCss, endCss, 'dropdown-in').then(function () {
-              self.dropdownMenu.css({display: 'none'});
-            });
-
+            computedCss['min-width'] = toggleRect.width + 'px';
+            self.dropdownMenu.css(computedCss);
+            $animate.addClass(self.dropdownMenu[0], 'show');
+          } else if (!isOpen) {
+            $animate.removeClass(self.dropdownMenu[0], 'show');
           }
         }
 
@@ -452,14 +385,13 @@ angular.module('ngMaterialize.dropdown', [])
       link: function(scope, element, attrs, dropdownCtrl) {
         dropdownCtrl.init(element);
         element.css({
-          //display: 'inline-block',
           position: 'relative'
         });
       }
     };
   })
 
-  .directive('dropdownMenu', function() {
+  .directive('dropdownMenu', ["$animate", function($animate) {
     return {
       restrict: 'AC',
       require: '?^dropdown',
@@ -473,13 +405,12 @@ angular.module('ngMaterialize.dropdown', [])
         element.css({
           position: 'absolute',
           top: 0,
-          left: 0,
+          left: 0
         });
-
         dropdownCtrl.dropdownMenu = element;
       }
     };
-  })
+  }])
 
   .directive('dropdownToggle', function() {
     return {
@@ -2167,7 +2098,6 @@ angular.module('ngMaterialize', [
   'ngMaterialize.core',
   'ngMaterialize.toast',
   'ngMaterialize.accordion',
-  'ngMaterialize.collapse',
   'ngMaterialize.tooltip',
   'ngMaterialize.floating-label',
   'ngMaterialize.character-counter',

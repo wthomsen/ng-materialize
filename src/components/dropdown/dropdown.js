@@ -136,8 +136,7 @@ angular.module('ngMaterialize.dropdown', [])
 
       scope.$watch('isOpen', function(isOpen, wasOpen) {
 
-        var startCss = {};
-        var endCss = {};
+        var computedCss = {};
         var toggleRect;
         var pos;
 
@@ -145,30 +144,15 @@ angular.module('ngMaterialize.dropdown', [])
           if (isOpen) {
             if (appendToBody) {
               pos = $position.positionElements(self.$element, self.dropdownMenu, 'top-left', true);
-              startCss.top = pos.top + 'px';
-              startCss.left = pos.left + 'px';
+              computedCss.top = pos.top + 'px';
+              computedCss.left = pos.left + 'px';
             }
-
             toggleRect = self.toggleElement[0].getBoundingClientRect();
-            startCss.display = 'block';
-            startCss['min-width'] = toggleRect.width + 'px';
-            startCss[constant.CSS.TRANSFORM_ORIGIN] = '50% 0';
-            startCss[constant.CSS.TRANSFORM] = 'scale(1, 0.5)';
-            endCss.opacity = 1;
-            endCss[constant.CSS.TRANSFORM] = '';
-            self.dropdownMenu.css(startCss);
-
-            $animate.animate(self.dropdownMenu[0], startCss, endCss, 'dropdown-in');
-
-          } else if (!isOpen && wasOpen) {
-            startCss[constant.CSS.TRANSFORM_ORIGIN] = '50% 0';
-            endCss.opacity = 0;
-            endCss[constant.CSS.TRANSFORM] = 'scale(1, 0.5)';
-            self.dropdownMenu.css(startCss);
-            $animate.animate(self.dropdownMenu[0], startCss, endCss, 'dropdown-in').then(function () {
-              self.dropdownMenu.css({display: 'none'});
-            });
-
+            computedCss['min-width'] = toggleRect.width + 'px';
+            self.dropdownMenu.css(computedCss);
+            $animate.addClass(self.dropdownMenu[0], 'show');
+          } else if (!isOpen) {
+            $animate.removeClass(self.dropdownMenu[0], 'show');
           }
         }
 
@@ -203,14 +187,13 @@ angular.module('ngMaterialize.dropdown', [])
       link: function(scope, element, attrs, dropdownCtrl) {
         dropdownCtrl.init(element);
         element.css({
-          //display: 'inline-block',
           position: 'relative'
         });
       }
     };
   })
 
-  .directive('dropdownMenu', function() {
+  .directive('dropdownMenu', function($animate) {
     return {
       restrict: 'AC',
       require: '?^dropdown',
@@ -224,9 +207,8 @@ angular.module('ngMaterialize.dropdown', [])
         element.css({
           position: 'absolute',
           top: 0,
-          left: 0,
+          left: 0
         });
-
         dropdownCtrl.dropdownMenu = element;
       }
     };

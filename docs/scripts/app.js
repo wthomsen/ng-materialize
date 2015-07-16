@@ -18,7 +18,7 @@ angular
   ]).config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     // Match urls regardless of a trailing slash
     $urlMatcherFactoryProvider.strictMode(false);
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(false);
 
     $urlRouterProvider.otherwise(function ($injector) {
       $injector.invoke(['$state', function ($state) {

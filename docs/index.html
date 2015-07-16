@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>ng-materialize</title>
-    <base href="/">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- build:css(.) styles/vendor.css -->
@@ -12,8 +11,8 @@
     <link rel="stylesheet" href="bower_components/prism/themes/prism.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="src/ng-materialize.css">
+    <!-- build:css({.,.tmp}) styles/main.css -->
+    <link rel="stylesheet" href="dist/ng-materialize.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
@@ -33,25 +32,13 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- build:js({.,.tmp,docs}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/app.js"></script>
     <script src="scripts/controllers/modal-instance.js"></script>
     <script src="scripts/directives/prism.js"></script>
-    <script src="src/ng-materialize.js"></script>
-    <script src="src/components/accordion/accordion.js"></script>
-    <script src="src/components/character-counter/character-counter.js"></script>
-    <script src="src/components/collapse/collapse.js"></script>
-    <script src="src/core/core.js"></script>
-    <script src="src/components/dropdown/dropdown.js"></script>
-    <script src="src/components/floating-label/floating-label.js"></script>
-    <script src="src/components/modal/modal.js"></script>
-    <script src="src/components/tabs/tabs.js"></script>
-    <script src="src/components/textarea/textarea.js"></script>
-    <script src="src/components/toast/toast.js"></script>
-    <script src="src/components/tooltip/tooltip.js"></script>
-    <script src="src/components/ink/ink.js"></script>
+    <script src="dist/ng-materialize.js"></script>
     <!-- endbuild -->
 </body>
 </html>

@@ -15,11 +15,13 @@ module.exports = function (grunt) {
     dist: 'dist',
     docsDist: 'gh-pages',
     src: 'src',
+    module: require('./bower.json').moduleName,
     project: {
       name: require('./bower.json').name,
       version: require('./bower.json').version
     }
   };
+
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -42,7 +44,7 @@ module.exports = function (grunt) {
       },
       jsSrc: {
         files: ['<%= yeoman.src %>/**/*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['build:dist'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -60,7 +62,7 @@ module.exports = function (grunt) {
       },
       compassSrc: {
         files: ['<%= yeoman.src %>/**/*.{scss,sass}'],
-        tasks: ['compass:src', 'autoprefixer:server'],
+        tasks: ['build:dist'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -171,15 +173,24 @@ module.exports = function (grunt) {
     clean: {
       docsDist: {
         files: [{
-          dot: true,
+          dot: false,
           src: [
             '.tmp',
             '<%= yeoman.docsDist %>/**/*',
-            '!<%= yeoman.docsDist %>/.git**/*'
+            '!<%= yeoman.docsDist %>/.git**/*',
+            '!<%= yeoman.docsDist %>/.git'
           ]
         }]
       },
-      dist: '<%= yeoman.dist %>',
+      dist: {
+        files: [{
+          dot: true,
+          src: [
+            '<%= yeoman.dist %>/**/*',
+            '!<%= yeoman.dist %>/.git**/*'
+          ]
+        }]
+      },
       server: '.tmp'
     },
 
@@ -405,14 +416,14 @@ module.exports = function (grunt) {
     },
 
     htmlmin: {
+      options: {
+        collapseWhitespace: true,
+        conservativeCollapse: true,
+        collapseBooleanAttributes: true,
+        removeCommentsFromCDATA: true,
+        removeOptionalTags: true
+      },
       docsDist: {
-        options: {
-          collapseWhitespace: true,
-          conservativeCollapse: true,
-          collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true,
-          removeOptionalTags: true
-        },
         files: [{
           expand: true,
           cwd: '<%= yeoman.docsDist %>',
@@ -452,16 +463,16 @@ module.exports = function (grunt) {
         options: {
           module: '<%= yeoman.module %>',
           append: true,
-          htmlmin: {
-            collapseBooleanAttributes:      true,
-            collapseWhitespace:             true,
-            removeAttributeQuotes:          true,
-            removeComments:                 true,
-            removeEmptyAttributes:          true,
-            removeRedundantAttributes:      true,
-            removeScriptTypeAttributes:     true,
-            removeStyleLinkTypeAttributes:  true
-          }
+//          htmlmin: {
+//            collapseBooleanAttributes:      true,
+//            collapseWhitespace:             true,
+//            removeAttributeQuotes:          true,
+//            removeComments:                 true,
+//            removeEmptyAttributes:          true,
+//            removeRedundantAttributes:      true,
+//            removeScriptTypeAttributes:     true,
+//            removeStyleLinkTypeAttributes:  true
+//          }
         }
       }
     },
@@ -482,10 +493,10 @@ module.exports = function (grunt) {
     },
 
     cssmin: {
+      options: {
+        keepSpecialComments: 0
+      },
       dist: {
-        options: {
-          keepSpecialComments: 0
-        },
         files: {
           '<%= yeoman.dist %>/<%= yeoman.project.name %>.min.css': ['<%= yeoman.dist %>/<%= yeoman.project.name %>.css']
         }
@@ -514,11 +525,17 @@ module.exports = function (grunt) {
           src: ['generated/*']
         }]
       },
+      jsSrc: {
+        expand: true,
+        cwd: '<%= yeoman.src %>',
+        dest: '.tmp/<%= yeoman.src %>',
+        src: '**/*.js'
+      },
       dist: {
         expand: true,
-        cwd: '.tmp/<%= yeoman.src %>',
-        dest: '<%= yeoman.dist %>',
-        src: '**/*.css'
+        cwd: '<%= yeoman.dist %>',
+        dest: '.tmp/<%= yeoman.dist %>',
+        src: '**/*.*'
       },
       styles: {
         expand: true,
@@ -559,6 +576,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'build:dist',
       'wiredep',
       'concurrent:server',
       'compass:server',
@@ -579,34 +597,48 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
-    // Docs build
-    'clean:docsDist',
-    'wiredep',
-    'cdnify',
-    'useminPrepare',
-    'concurrent:docsDist',
-    'autoprefixer',
-    'concat',
-    'ngAnnotate',
-    'copy:docsDist',
-    'cssmin',
-    'uglify',
-    'ngtemplates:docsDist',
-    'filerev',
-    'usemin',
-    'htmlmin',
-    'wiredep', // Rerun to undo cdnify workaround
+  grunt.registerTask('build', 'Build the project', function (target) {
 
-    // Src build
-    'clean:dist',
-    'concat:dist',
-    'ngAnnotate:dist',
-    'compass:dist',
-    'autoprefixer:dist',
-    'uglify:dist',
-    'cssmin:dist'
-  ]);
+    if (target === 'dist' || typeof target === 'undefined') {
+      grunt.task.run([
+        'clean:dist',
+        'concat:dist',
+        'ngAnnotate:dist',
+        'compass:dist',
+        'autoprefixer:dist',
+        'uglify:dist',
+        'cssmin:dist',
+        'copy:dist'
+      ]);
+    }
+
+    if (target === 'docs' || typeof target === 'undefined') {
+      grunt.task.run([
+        // Docs build
+        'clean:docsDist',
+        'copy:jsSrc',
+        'compass:server',
+        'compass:src',
+        'jade:server',
+        'wiredep',
+        'cdnify',
+        'useminPrepare',
+        'concurrent:docsDist',
+        'concat',
+        'ngAnnotate',
+        'copy:docsDist',
+        'autoprefixer:docsDist',
+        'cssmin',
+        'uglify',
+        'ngtemplates:docsDist',
+        'filerev',
+        'usemin',
+  //    'htmlmin:docsDist',
+        'wiredep' // Rerun to undo cdnify workaround
+      ]);
+    }
+
+  });
 
   grunt.registerTask('default', [
     'newer:jshint',

@@ -1,0 +1,65 @@
+.container
+  .row
+    .col.s12
+      h2#about.header About
+      p.caption
+        | <strong>ng-materialize</strong> is a custom build of the <a href="http://materializecss.com/">Materialize</a> framework that includes native AngularJS components.
+        | The directives favor simplicity over customization, and aim to adhere to a strict interpretation of Google's <a href="https://www.google.com/design/spec/material-design/introduction.html">Material Design.</a>
+        | The project removes Materialize's jQuery, Velocity.js and custom JavaScript dependencies, but requires <a href="https://docs.angularjs.org/api/ngAnimate">ngAnimate</a> and <a href="http://fian.my.id/Waves/">Waves</a> (one of Materialize's hidden dependencies).
+      p
+        | ng-materialize was initially developed alongside a separate project, with directives added on an as-needed basis.
+        | It is a work in progress.
+        | It borrows heavily from UI Bootstrap but also uses snippets from Angular Material and Materialize's custom JavaScript.
+        | A huge thanks goes out to these projects' contributors.
+    .col.s12
+      h2#getting-started.header Getting Started
+      pre.language-markup
+        code bower install ng-materialize
+      ul.bulleted
+        li ng-materialize is a custom build of Materialize. Do not include the original library
+        li The Roboto and Material Icons font families are imported from <a href="https://www.google.com/fonts">Google Fonts</a> in the css
+
+    .col.s12
+      h2#directives.header Directives
+      include partials/components/accordion
+      include partials/components/dropdown
+      include partials/components/ink
+      include partials/components/tabs
+      include partials/components/text-field
+      include partials/components/tooltip
+      h2#services.header Services
+      include partials/components/modal
+      include partials/components/toast
+    .col.s12
+      h2#alternatives.header Alternatives
+      ul
+        li
+          strong <a href="https://material.angularjs.org/">Angular Material</a>
+          p
+            | Angular Material is Google's official implementation of Material Design in AngularJS.
+            | The framework is very modern (flexbox, AMCSS) but suffers from performance issues, particularly noticeable on mobile (it is pre 1.0).
+            | Another consideration is the project's JavaScript-based theming (something usually handled by a CSS preprocessor).
+            | It also lacks the Atomic CSS helper/utility classes often found in other frameworks.
+        li
+          strong <a href="http://krescruz.github.io/angular-materialize/">angular-materialize</a>
+          p
+            | The directives of angular-materialize are mostly initialization wrappers of Materialize's custom JavaScript.
+            | Therefore, the library largely ignores the "Angular way" of doing things. It misses out on things like service-based components, leveraging data binding, templating and ngAnimate.
+            | It also maintains Materialize's jQuery, Velocity.js and custom JavaScript dependencies.
+            | It does, however, offer more components.
+        li
+          strong <a href="https://angular-ui.github.io/bootstrap/">UI Bootstrap</a>
+          p
+            | UI Bootstrap is a full set of AngularJS directives built on top of the Bootstrap framework.
+            | The project is well-documented and can be paired with a <a href="https://fezvrasta.github.io/bootstrap-material-design/">Material Design-inspired Bootstrap Theme</a>.
+            | This can result in muddled design that is neither Bootstrap nor Material, particularly when considering details like animations.
+        li
+          strong <a href="http://ui.lumapps.com/">lumX</a>
+          p
+           | A full framework built for AngularJS based on Material Design. It has about the same level of maturity as Materialize.
+           | In addition to AngularJS, it has jQuery, Velocity.js and Moment.js dependencies.
+           | It strictly implements Material Design, but lacks some polish with things like animation.
+        li
+          strong <a href="http://www.getmdl.io/index.html">Material Design Lite</a>
+          p
+            | A framework agnostic library by Google. It includes basic components such as inputs, buttons, menus and tooltips. A good choice for a light weight website.

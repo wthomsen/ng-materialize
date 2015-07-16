@@ -1,0 +1,90 @@
+h3#dropdown Dropdown
+a(href="http://www.google.com/design/spec/components/menus.html")
+  blockquote(cite="http://www.google.com/design/spec/components/menus.html") Menus allow users to take an action by selecting from a list of choices revealed upon opening a temporary, new sheet of material.
+.row
+  .col.s12.l6
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          div(style="min-height: 200px;")
+            div(dropdown)
+              button(type="button", dropdown-toggle).btn.btn-default Default Dropdown
+              ul.dropdown-menu
+                li: a(href) One
+                li: a(href) Two
+                li.divider
+                li: a(href) Three
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <div dropdown>
+                  <button type="button" dropdown-toggle class="btn btn-default">Default Dropdown</button>
+                </div>
+                <ul class="dropdown-menu">
+                  <li><a href>One</a></li>
+                  <li><a href>Two</a></li>
+                  <li class="divider"></li>
+                  <li><a href>Three</a></li>
+                </ul>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+               angular.module('ng-materialize.demo');
+  .col.s12.l6
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          div(style="min-height: 200px;")
+            div(dropdown, auto-close="outsideClick" style="display: inline-block;")
+              button(type="button", dropdown-toggle).btn.btn-default Outside Click to Close
+              ul.dropdown-menu
+                li: a One
+                li: a Two
+                li.divider
+                li: a Three
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <div dropdown auto-close="outsideClick" class="dropdown-wrap">
+                  <button type="button" dropdown-toggle class="btn btn-default">Outside Click to Close</button>
+                </div>
+                <ul class="dropdown-menu">
+                  <li><a href>One</a></li>
+                  <li><a href>Two</a></li>
+                  <li class="divider"></li>
+                  <li><a href>Three</a></li>
+                </ul>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+               angular.module('ng-materialize.demo');
+        tab
+          tab-heading CSS
+          pre(prism).language-css
+            code(ng-non-bindable class="language-css").
+               .dropdown-wrap {display: inline-block;}
+
+h4 Settings
+ul.collection
+  li.collection-item
+    code(style="font-weight: bold;") dropdown
+  li.collection-item
+    .right =always | outsideClick | disabled {string}
+    code auto-close
+  li.collection-item
+    .right =false {boolean}
+    code dropdown-append-to-body
+  li.collection-item
+    .right =false {boolean} (bound)
+    code is-open
+  li.collection-item
+    code(style="font-weight: bold;") dropdown-toggle
+

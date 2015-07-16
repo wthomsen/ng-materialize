@@ -1,0 +1,125 @@
+$validation-transition: 0.48s ease;
+
+.input-field {
+  margin-top: 2rem;
+  label {
+    left: 0 !important; // Materialize override
+  }
+
+  .field-hint {
+    font-size: $label-font-size;
+    display: block;
+    float: left;
+    margin-top: -0.5rem;
+    position: relative;
+    >div {
+      white-space: nowrap;
+      transition: transform #{$validation-transition};
+      transition-property: opacity, transform;
+      &.ng-enter,
+      &.ng-leave.ng-leave-active {
+        opacity: 0;
+        transform: translate3d(0, -50%, 0);
+      }
+      &.ng-leave,
+      &.ng-enter.ng-enter-active {
+        opacity: 1;
+        transform: none;
+      }
+      &.ng-leave, &.ng-leave-active {
+        position: absolute;
+        top: 0;
+      }
+    }
+  }
+
+  .character-counter {
+    @extend .field-hint;
+    transition: $validation-transition;;
+    opacity: 0;
+    float: right;
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  // Valid Input Style
+  input.validate, textarea.validate {
+    &.ng-valid.ng-dirty,
+    &:focus.ng-valid.ng-dirty {
+
+      border-bottom: 1px solid $input-success-color;
+      box-shadow: 0 1px 0 0 $input-success-color;
+      +div, +label {
+        color: $input-success-color;
+        transition: #{$validation-transition};
+        +div, +label { // Style the hint
+          color: $input-success-color;
+          transition: #{$validation-transition};
+          +div, +label { // Style the char counter
+            color: $input-success-color;
+            transition: #{$validation-transition};
+          }
+        }
+      }
+
+      &.ignore-success {
+        border-bottom: 1px solid $input-focus-color;
+        box-shadow: 0 1px 0 0 $input-focus-color;
+        +div, +label {
+          color: $input-focus-color;
+          transition: #{$validation-transition};
+          +div, +label { // Style the hint
+            color: $input-focus-color;
+            transition: #{$validation-transition};
+            +div, +label {
+              color: $input-focus-color;
+              transition: #{$validation-transition};
+            }
+          }
+        }
+      }
+    }
+
+
+    // Invalid Input Style
+    &.ng-invalid.ng-dirty,
+    &.ng-invalid-email.ng-dirty,
+    &:focus.ng-invalid-email.ng-dirty,
+    &:focus.ng-invalid.ng-dirty {
+      border-bottom: 1px solid #{$input-error-color};
+      box-shadow: 0 1px 0 0 #{$input-error-color};
+      +div, +label {
+        color: $input-error-color;
+        transition: #{$validation-transition};
+        +div, +label { // Style the hint
+          color: $input-error-color;
+          transition: #{$validation-transition};
+          +div, +label { // Style the char counter
+            color: $input-error-color;
+            transition: #{$validation-transition};
+          }
+        }
+      }
+    }
+  }
+}
+
+// Default textarea
+textarea {
+  width: 100%;
+  height: 3rem;
+  background-color: transparent;
+
+  // TODO determine if there is a reason for Materialize's odd textarea styling
+  &.materialize-textarea {
+    min-height: auto !important; // materialize override
+    margin-bottom: 8px;
+    padding: 0.6rem 0 0 0 !important; // materialize override
+  }
+}
+
+// For textarea autoresize
+.hiddendiv {
+  display: block !important;  // materialize override
+}

@@ -1,0 +1,81 @@
+h3#text-field Text Field
+a(href="http://www.google.com/design/spec/components/text-fields.html")
+  blockquote(cite="http://www.google.com/design/spec/components/text-fields.html") Text fields allow the user to input text. They can be single-line, with or without scrolling, or multi-line, and can have an icon.
+.row
+  .col.s12.l6
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          form(name="exampleForm", novalidate)
+            .input-field
+              input#example1(type="text", name="example1", ng-model="textFields.example1", floating-label="Counter & Validation", character-counter="10", ng-maxlength="10", ng-required="true").validate
+              .field-hint(ng-messages="exampleForm.example1.$error", ng-show="exampleForm.example1.$dirty")
+                div(ng-message="required") This is required.
+                div(ng-message="maxlength") This field may not exceed 10 characters.
+            .input-field
+              textarea#example2(materialize-textarea="true", floating-label="Expanding Textarea", ng-model="textfields.example2")
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <form name="exampleForm" novalidate>
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      class="validate"
+                      id="example1"
+                      name="example1"
+                      ng-model="inputs.example1"
+                      floating-label="Counter and Validation"
+                      character-counter="10"
+                      ng-maxlength="10"
+                      ng-required="true"/>
+                    <div class="field-hint" ng-messages="exampleForm.example1.$error" ng-show="exampleForm.example1.$dirty">
+                      <div ng-message="required">This is required.</div>
+                      <div ng-message="maxlength">This field may not exceed 10 characters.</div>
+                    </div>
+                  </div>
+                  <div class="input-field">
+                    <textarea
+                      id="example2"
+                      materialize-textarea="true"
+                      floating-label="Expanding Textarea"
+                      ng-model="form.example2>
+                    </textarea>
+                  </div>
+                </form>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+               angular
+                 .module('ng-materialize.demo')
+                 .controller('InputDemoCtrl', function ($scope) {
+                   $scope.form = {
+                     example1: null,
+                     example2: null
+                   };
+                 });
+  .col.s12.l6
+    p ng-materialize uses directives and CSS classes to stylize text fields:
+    ul.bulleted
+      li: p Use the <code>floating-label</code> directive to add labels to inputs and textareas (The element must also declare the <code>id</code> attribute).
+      li: p Use the <code>character-counter</code> directive to add a character hint to inputs and textareas.
+      li: p
+        | Add the <code>validate</code> class to inputs/textareas for success and error state styling when using <a href="https://docs.angularjs.org/api/ng/directive/input">Angular.JS input validation</a>.
+        | Include the <code>ignore-success</code> class to exclude success state styling.
+      li: p Wrap error state messages in a div with the <code>field-hint</code> class. Optionally use <a href="https://docs.angularjs.org/api/ngMessages/directive/ngMessages">ngMessages</a> to streamline the process.
+      li: p Use the <code>materialize-textarea</code> directive on a <code>textarea</code> to make the field resize itself based on its contents.
+h4 Settings
+ul.collection
+  li.collection-item
+    code(style="font-weight: bold;") floating-label
+    .right {string}
+  li.collection-item
+    code(style="font-weight: bold;") character-counter
+    .right {int}
+  li.collection-item
+    code(style="font-weight: bold;") materialize-textarea
+    .right {boolean}

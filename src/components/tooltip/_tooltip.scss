@@ -1,0 +1,44 @@
+//
+// Tooltips
+// --------------------------------------------------
+$tooltip-opacity: 1;
+$tooltip-offset: 15px;
+$tooltip-max-width: 200px;
+
+// Base class
+.tooltip {
+  position: absolute;
+  z-index: 1000;
+  display: block;
+  // Reset font and text properties given new insertion method
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.2rem;
+  margin-top: 3px;
+  padding: $tooltip-offset 0;
+
+  // ngAnimate definitions
+  transition: all #{$timing-ease-out-quad} 0.15s;
+  transform-origin: 50% 10%;
+  &.ng-enter,
+  &.ng-leave.ng-leave-active {
+    opacity: 0;
+    transform: translate3d(0, -15%, 0);
+  }
+  &.ng-leave,
+  &.ng-enter.ng-enter-active {
+    opacity: 1;
+    transform: none;
+  }
+
+  // Wrapper for the tooltip content
+  .tooltip-inner {
+    max-width: $tooltip-max-width;
+    padding: 10px 8px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    background-color: #323232;
+    border-radius: 2px;
+  }
+}

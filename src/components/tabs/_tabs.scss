@@ -1,0 +1,82 @@
+.tabs {
+  white-space: inherit !important; // Materialize override
+  height: auto !important; // Materialize override
+  >ul {
+
+    white-space: nowrap;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+
+    .tab {
+      >a {
+        display: block;
+        padding: 0 20px;
+      }
+      width: auto; // Materialize override
+    }
+
+    &.tabs-justified .tab {
+      width: 1%;
+      display: table-cell;
+      float: none;
+    }
+  }
+
+  .tab-content {
+    margin-top: 2px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    width: 100%;
+    clear: both;
+    position: relative;
+    overflow: hidden;
+
+    >.tab-pane {
+      position: relative;
+      padding: 20px;
+      transition: 0.6s ease;
+      &.ng-hide-remove {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+        &.tab-reverse, &.tab-reverse-add {
+          transform: translate3d(-100%, 0, 0);
+        }
+        &.tab-reverse-remove {
+          transform: translate3d(100%, 0, 0);
+        }
+      }
+      &.ng-hide-add.ng-hide-add-active {
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0);
+        &.tab-reverse, &.tab-reverse-add{
+          transform: translate3d(100%, 0, 0);
+        }
+        &.tab-reverse-remove {
+          transform: translate3d(-100%, 0, 0);
+        }
+      }
+
+      &.ng-hide-add,
+      &.ng-hide-remove.ng-hide-remove-active {
+        opacity: 1;
+        transform: none;
+      }
+      &.ng-hide-add, &.ng-hide-active {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .indicator {
+    top: 48px;
+    bottom: auto;
+    &.indicator-right {
+      transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1), right 0.225s cubic-bezier(0.35, 0, 0.25, 1);
+    }
+    &.indicator-left {
+      transition: left 0.225s cubic-bezier(0.35, 0, 0.25, 1), right 0.5s cubic-bezier(0.35, 0, 0.25, 1);
+    }
+  }
+}

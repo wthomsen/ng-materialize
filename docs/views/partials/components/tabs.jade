@@ -1,0 +1,103 @@
+h3#tabs Tabs
+a(href="http://www.google.com/design/spec/components/tabs.html")
+  blockquote(cite="http://www.google.com/design/spec/components/tabs.html") Tabs make it easy to explore and switch between different views or functional aspects of an app or to browse categorized data sets.
+.row
+  .col.s12.l7
+    h4 Default (with content)
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          tabset
+            tab(ng-repeat="tab in tabs" active="tab.activeInline", disable="tab.disable")
+              tab-heading {{tab.heading}}
+              p {{tab.content}}
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <tabset>
+                  <tab ng-repeat="tab in tabs" active="tab.active" disable="tab.disable">
+                    <tab-heading>{{tab.heading}}</tab-heading>
+                    <p>{{tab.content}}</p>
+                  </tab>
+                </tabset>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+              angular
+                .module('ng-materialize.demo')
+                .controller('TabsDemoCtrl', function ($scope) {
+                  var lorem = [
+                    'Single latte grounds Sit rich black extra seasonal medium filter qui sugar caffeine. Cream arabica cup go body acerbic cinnamon espresso shot americano origin foam extraction froth café.',
+                    'Iced french variety aftertaste milk ristretto white instant skinny filter redeye sweet galão whipped dripper. Cinnamon that so mazagran Coffee crema cup cortado turkish breve foam siphon panna french aroma.',
+                    'Arabica cinnamon doppio viennese rich sugar percolator white cappuccino panna plunger fair extraction brewed. Saucer froth irish barista ut half aged Sit filter caffeine aftertaste sit macchiato.'
+                  ];
+                  $scope.tabs = [
+                    {heading: 'Tab 1', content: lorem[0], disable: false},
+                    {heading: 'Tab 2', content: lorem[1], disable: false},
+                    {heading: 'Disabled Tab 3', content: 'This tab is disabled', disable: true},
+                    {heading: 'Tab 4', content: lorem[2], disable: false}
+                  ];
+                });
+
+  .col.s12.l5
+    h4 Justified (no content)
+    p
+      | Tab headers can act independently of tab content.
+      | Use the <code>no-content</code> option along with <code>active</code> or <code>select()</code> to assist in content display.
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          tabset(justified="true",no-content="true")
+            tab(ng-repeat="tab in justifiedTabs")
+              tab-heading {{tab.heading}}
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <tabset justified="true" no-content="true">
+                  <tab ng-repeat="tab in tabs">
+                    <tab-heading>{{tab}}</tab-heading>
+                  </tab>
+                </tabset>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+              angular
+                .module('ng-materialize.demo')
+                .controller('TabsDemoCtrl', function ($scope) {
+                  $scope.tabs = ['Tab 1', 'Tab 2', 'Tab 3'];
+                });
+h4 Settings
+ul.collection
+  li.collection-item
+    code(style="font-weight: bold;") &lt;tabset&gt;
+  li.collection-item
+    .right =false {boolean}
+    code justified
+  li.collection-item
+    .right =false {boolean}
+    code no-content
+  li.collection-item
+    code(style="font-weight: bold;") &lt;tab&gt;
+  li.collection-item
+    .right =false {boolean} (bound)
+    code active
+  li.collection-item
+    .right =false {boolean} (bound)
+    code disable
+  li.collection-item
+    .right {func}
+    code select()
+  li.collection-item
+    .right {func}
+    code deselect()
+  li.collection-item
+    code(style="font-weight: bold;") &lt;tab-heading&gt;
+

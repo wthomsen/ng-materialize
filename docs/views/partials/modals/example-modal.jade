@@ -1,0 +1,8 @@
+.modal-content
+  h4.light.black-text Sample Modal
+  p(ng-repeat="item in items")
+    input(type="radio", ng-model="form.selectedItem", name="item", id="item-{{$index}}", value="{{item}}")
+    label(for="item-{{$index}}", ng-bind="item")
+.modal-footer
+  button(ng-click="select(form.selectedItem)",).btn-flat Select
+  button(ng-click="cancel()").btn-flat Cancel

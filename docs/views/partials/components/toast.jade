@@ -1,0 +1,48 @@
+h3#toast Toast
+a(href="http://www.google.com/design/spec/components/snackbars-toasts.html")
+  blockquote(cite="http://www.google.com/design/spec/components/snackbars-toasts.html") Snackbars provide lightweight feedback about an operation by showing a brief message at the bottom of the screen...Toasts are similar to snackbars but do not contain actions and cannot be swiped off screen.
+
+.row
+  .col.s12
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          button(ng-click="showToast()").btn.btn-default Default Toast
+          button(ng-click="showToast(undefined, 'rounded')").btn.btn-default Rounded Toast
+          button(ng-click="showToast(500)").btn.btn-default Quick Toast
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <button type="button" class="btn btn-default" ng-click="showToast()">Default Toast</button>
+                <button type="button" class="btn btn-default" ng-click="showToast(undefined, 'rounded')">Rounded Toast</button>
+                <button type="button" class="btn btn-default" ng-click="showToast(500)">Quick Toast</button>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+              angular
+                .module('ng-materialize.demo')
+                .controller('ToastDemoCtrl', function ($scope) {
+                  var toastCounter = 1;
+                  $scope.showToast = function (duration, className) {
+                    $toast.show('This is sample toast ' + toastCounter + '.', duration, className);
+                    toastCounter++;
+                  };
+                });
+
+ul.collection
+  li.collection-item
+    code(style="font-weight: bold;") $toast.show(message, [duration], [className])
+  li.collection-item
+    .right {string}
+    code message - the message to display
+  li.collection-item
+    .right =2500 {int} (ms)
+    code duration - the duration to display the tooltip
+  li.collection-item
+    .right {string}
+    code className - a css class to assign to the tooltip
+p Note: Toasts are automatically placed (and animated) based on screen width. They appear at the bottom of small screens, the bottom left of medium screens, and the top right of large screens.

@@ -1,0 +1,113 @@
+h3#modal Modal
+a(href="http://www.google.com/design/spec/components/dialogs.html")
+  blockquote(cite="http://www.google.com/design/spec/components/dialogs.html") Dialogs inform users about critical information, require users to make decisions, or encapsulate multiple tasks within a discrete process. Use dialogs sparingly because they are interruptive in nature.
+
+.row
+  .col.s12
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          button(ng-click="openModal()").btn.btn-default Default Modal
+          button(ng-click="openModal($event)").btn.btn-default Anchored Modal
+          p {{modalResult}}
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <button type="button" ng-click="openModal()">Default Modal</button>
+                <button type="button" ng-click="openModal($event)">Anchored Modal</button>
+                <p>{{modalResult}}</p>
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <div class="modal-content">
+                  <h4 class="light black-text">Sample Modal</h4>
+                  <p ng-repeat="item in items">
+                    <input type="radio" name="item" id="item-{{$index}}" value="{{item}}" ng-model="form.selectedItem"/>
+                    <label for="item-{{$index}}">{{item}}</label>
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn-flat" ng-click="select(form.selectedItem)">Select</button>
+                  <button type="button" class="btn-flat" ng-click="cancel()">Cancel</button>
+                </div>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+               angular
+                 .module('ng-materialize.demo')
+                 .controller('ModalDemoCtrl', function ($scope) {
+                   var items = ['item 1', 'item 2', 'item 3'];
+                   $scope.openModal = function ($event) {
+                     var modalInstance = $modal.open({
+                       templateUrl: 'views/partials/modals/example-modal.html',
+                       anchorElement: $event ? angular.element($event.target) : undefined,
+                       controller: 'ModalInstanceCtrl',
+                       resolve: {
+                         items: function () {
+                           return items;
+                         }
+                       }
+                     });
+                     modalInstance.result.then(function (selectedItem) {
+                       $scope.modalResult = 'You selected ' + selectedItem;
+                     }, function () {
+                       $scope.modalResult = 'You dismissed the modal';
+                     });
+                   };
+                 })
+                 .controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+                   $scope.items = items;
+                   $scope.form = {selectedItem: items[0]};
+
+                   $scope.select = function (item) {
+                     $modalInstance.close(item);
+                   };
+
+                   $scope.cancel = function () {
+                     $modalInstance.dismiss('cancel');
+                   };
+                 });
+ul.collection
+  li.collection-item
+    .right @returns {modalInstance}
+    code(style="font-weight: bold;") $modal.open(options)
+  li.collection-item
+    .right {jQuery object}
+    code anchorElement
+    span  - jQuery-wrapped element (see <a href="https://docs.angularjs.org/api/ng/function/angular.element">angular.element</a>) the modal animates from
+  li.collection-item
+    .right {string}
+    code templateUrl
+    span  - path to template representing modal's content
+  li.collection-item
+    .right {string}
+    code template
+    span  - inline template representing modal's content
+  li.collection-item
+    .right =$rootScope
+    code scope
+    span  - scope instance used for the modal's content
+  li.collection-item
+    .right {string}
+    code controller
+    span  - controller for the modal instance
+  li.collection-item
+    .right {func}
+    code resolve
+    span  - members resolved and passed to the controller as locals (similar to Angular.JS routes)
+  li.collection-item
+    code(style="font-weight: bold;") modalInstance
+  li.collection-item
+    code modalInstance.close(result)
+    span  - closes modal, passing a result
+  li.collection-item
+    code modalInstance.dismiss(reason)
+    span  - dismisses modal, passing a reason
+  li.collection-item
+    code modalInstance.result
+    span  - promise that is resolved when modal is closed and rejected when dismissed
+p Note: The modal is a fork of <a href="http://angular-ui.github.io/bootstrap/#/modal">UI Bootstrap's</a>. Look there for extended documentation.

@@ -1,0 +1,49 @@
+.toast {
+
+  display: block;
+  position: fixed;
+  z-index: 1001;
+
+  margin-top: 0 !important; // Materialize override
+
+  @media #{$small-and-down} {
+    width: 100%;
+    min-width: 100%;
+    bottom: 0;
+    border-radius: 0;
+    top: auto !important; // Materialize override
+  }
+  @media #{$medium-only} {
+    min-width: 30%;
+    left: 5vw;
+    bottom: 5vw;
+    top: auto !important; // Materialize override
+  }
+  @media #{$large-and-up} {
+    min-width: 8%;
+    top: 3vw;
+    right: 3vw;
+  }
+
+  // Animation
+  transition: all #{$timing-ease-out-quad} 0.3s;
+  &.ng-enter,
+  &.ng-leave.ng-leave-active {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  &.ng-leave,
+  &.ng-enter.ng-enter-active {
+    opacity: 1;
+    transform: none;
+  }
+
+  // When the toast is at the top of the screen, the exit animation should continue upwards
+  @media #{$large-and-up} {
+    &.ng-leave.ng-leave-active {
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
+    }
+  }
+
+}

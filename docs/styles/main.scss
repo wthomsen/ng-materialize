@@ -1,0 +1,50 @@
+////== Sticky Footer
+//
+//##
+
+.body-wrap {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+h2 {
+  color: #ee6e73;
+  font-weight: 300;
+}
+
+h3 {
+  color: #26a69a;
+  font-weight: 300;
+}
+
+h4, h5 {
+  color: #323232;
+  font-weight: 300;
+}
+
+.caption {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+a {
+  &:hover {
+    blockquote {
+      color: inherit;
+    }
+  }
+  blockquote {
+    color: #323232;
+  }
+}
+
+ul.bulleted li{
+  list-style-type: disc;
+  margin-left: 2em;
+}

@@ -1,0 +1,17 @@
+// All of this serves to mask Materialize's bundling of Waves 0.6.
+// TODO: Find sustainable solution for unbundling Waves
+
+.waves-effect {
+  display: auto !important;
+
+  .waves-ripple {
+    display: auto !important;
+    width: 100px !important;
+    height: 100px !important;
+    margin-top: -50px !important;
+    margin-left: -50px !important;
+    transition: all 0.5s ease;
+    transform: scale(0) translate(0, 0);
+  }
+}
+

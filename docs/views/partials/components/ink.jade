@@ -1,0 +1,70 @@
+h3#ink Ink
+a(href="http://www.google.com/design/spec/animation/responsive-interaction.html")
+  blockquote(cite="http://www.google.com/design/spec/animation/responsive-interaction.html") Responsive interaction encourages deeper exploration of an app by creating timely, logical, and delightful screen reactions to user input. Each interaction is thoughtful, perhaps whimsical, but never distracting.
+
+.row
+  .col.s12.l6
+    p Use the <code>ink-color</code> option to change the ink effect's color:
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          .collection
+            a.collection-item(href, ink) Default Ink
+            a.collection-item(href, ink, ink-color="light") Light Ink
+            a.collection-item(href, ink, ink-color="red") Red Ink
+            a.collection-item(href, ink, ink-color="yellow") Yellow Ink
+            a.collection-item(href, ink, ink-color="orange") Orange Ink
+            a.collection-item(href, ink, ink-color="purple") Purple Ink
+            a.collection-item(href, ink, ink-color="green") Green Ink
+            a.collection-item(href, ink, ink-color="teal") Teal Ink
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <div class="collection">
+                  <a href class="collection-item" ink>Default Ink</a>
+                  <a href class="collection-item" ink ink-color="light">Light Ink</a>
+                  <a href class="collection-item" ink ink-color="red">Red Ink</a>
+                  <a href class="collection-item" ink ink-color="yellow">Yellow Ink</a>
+                  <a href class="collection-item" ink ink-color="orange">Orange Ink</a>
+                  <a href class="collection-item" ink ink-color="purple">Purple Ink</a>
+                  <a href class="collection-item" ink ink-color="green">Green Ink</a>
+                  <a href class="collection-item" ink ink-color="teal">Teal Ink</a>
+                </div>
+
+  .col.s12.l6
+    p ng-materialize includes the ink effect by default on these components:
+    ul.bulleted
+      li <code>&lt;button&gt;</code>
+      li <code>&lt;accordion-heading&gt;</code>
+      li <code>&lt;tab-heading&gt;</code>
+    p Use the <code>no-ink</code> option to disable the effect on buttons:
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          button(type="button").btn.btn-default Button
+          button(type="button", no-ink).btn.btn-default No Ink
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <button type="button" class="btn btn-default">Button</button>
+                <button type="button" class="btn btn-default" no-ink="true">No Ink</button>
+
+h4 Settings
+ul.collection
+  li.collection-item
+    code(style="font-weight: bold;") ink
+  li.collection-item
+    .right =classic | light | red | yellow | orange | purple | green | teal {string}
+    code ink-color
+  li.collection-item
+    .right =false {boolean}
+    code no-ink
+p
+  | Note: To provide Material Design's ripple effect, Materialize wraps the <a href="http://fian.my.id/Waves/">Waves project</a> into its JavaScript.
+  | ng-materialize unbundles the project and includes it as a dependency. It is required to use the ink directive.

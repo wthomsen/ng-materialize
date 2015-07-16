@@ -1,0 +1,147 @@
+h3#accordion Accordion
+.row
+  .col.s12.l6
+    h4 Default
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          p
+            input#open-one(type="checkbox", ng-model="openOne")
+            label(for="open-one") Open only one at a time
+          accordion(close-others="openOne")
+            accordion-group(ng-repeat="accordionGroup in flatAccordionGroups")
+              accordion-heading
+                i(ng-bind="accordionGroup.icon").material-icons
+                span(ng-bind="accordionGroup.title")
+              p(ng-bind="accordionGroup.content")
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <p>
+                  <input type="checkbox" id="open-one" ng-model="openOne"/>
+                  <label for="open-one">Open only one at a time</label>
+                </p>
+                <accordion close-others="openOne">
+                  <accordion-group ng-repeat="accordionGroup in accordionGroups">
+                    <accordion-heading>
+                      <i class="material-icons">{{accordionGroup.icon}}</i>
+                      {{accordionGroup.title}}
+                    </accordion-heading>
+                    <p>{{accordionGroup.content}}</p>
+                  </accordion-group>
+                </accordion>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+               angular
+                 .module('ng-materialize.demo')
+                 .controller('AccordionDemoCtrl', function ($scope) {
+                   var lorem = [
+                     'Single latte grounds Sit rich black extra seasonal medium filter qui sugar caffeine. Cream arabica cup go body acerbic cinnamon espresso shot americano origin foam extraction froth café.',
+                     'Iced french variety aftertaste milk ristretto white instant skinny filter redeye sweet galão whipped dripper. Cinnamon that so mazagran Coffee crema cup cortado turkish breve foam siphon panna french aroma.',
+                     'Arabica cinnamon doppio viennese rich sugar percolator white cappuccino panna plunger fair extraction brewed. Saucer froth irish barista ut half aged Sit filter caffeine aftertaste sit macchiato.'
+                   ];
+                   $scope.openOne = true;
+                   $scope.accordionGroups = [
+                     {
+                       title: 'First',
+                       icon: 'subtitles',
+                       content: lorem[0]
+                     }, {
+                       title: 'Second',
+                       icon: 'games',
+                       content: lorem[1]
+                     }, {
+                       title: 'Third',
+                       icon: 'library_books',
+                       content: lorem[2]
+                     }
+                   ];
+                 });
+  .col.s12.l6
+    h4 Popout
+    .card
+      tabset
+        tab
+          tab-heading Demo
+          .row
+            .col.s12.m4(ng-repeat="accordionGroup in popoutAccordionGroups")
+              input(type="checkbox", ng-model="accordionGroup.open", id="{{accordionGroup.title}}")
+              label(for="{{accordionGroup.title}}", ng-bind="accordionGroup.title")
+          accordion(accordion-popout, close-others="false")
+            accordion-group(ng-repeat="accordionGroup in popoutAccordionGroups", is-open="accordionGroup.open")
+              accordion-heading
+                i(ng-bind="accordionGroup.icon").material-icons
+                span(ng-bind="accordionGroup.title")
+              p(ng-bind="accordionGroup.content")
+        tab
+          tab-heading HTML
+          pre(prism).language-markup
+            code(ng-non-bindable).language-markup
+              :code
+                <div class="row">
+                  <div class="col s12 m4" ng-repeat="accordionGroup in accordionGroups">
+                    <input type="checkbox" id="{{accordionGroup.title}}" ng-model="accordionGroup.open"/>
+                    <label for="{{accordionGroup.title}}">{{accordionGroup.title}}</label>
+                  </div>
+                </div>
+                <accordion accordion-popout, close-others="false">
+                  <accordion-group ng-repeat="accordionGroup in accordionGroups" is-open="accordionGroup.open">
+                    <accordion-heading>
+                      <i class="material-icons">{{accordionGroup.icon}}</i>
+                      {{accordionGroup.title}}
+                    </accordion-heading>
+                    <p>{{accordionGroup.content}}</p>
+                  </accordion-group>
+                </accordion>
+        tab
+          tab-heading JS
+          pre(prism).language-javascript
+            code(ng-non-bindable class="language-javascript").
+               angular
+                 .module('ng-materialize.demo')
+                 .controller('AccordionDemoCtrl', function ($scope) {
+                   var lorem = [
+                     'Single latte grounds Sit rich black extra seasonal medium filter qui sugar caffeine. Cream arabica cup go body acerbic cinnamon espresso shot americano origin foam extraction froth café.',
+                     'Iced french variety aftertaste milk ristretto white instant skinny filter redeye sweet galão whipped dripper. Cinnamon that so mazagran Coffee crema cup cortado turkish breve foam siphon panna french aroma.',
+                     'Arabica cinnamon doppio viennese rich sugar percolator white cappuccino panna plunger fair extraction brewed. Saucer froth irish barista ut half aged Sit filter caffeine aftertaste sit macchiato.'
+                   ];
+                   $scope.accordionGroups = [
+                     {
+                       title: 'First',
+                       icon: 'subtitles',
+                       content: lorem[0],
+                       open: false
+                     }, {
+                       title: 'Second',
+                       icon: 'games',
+                       content: lorem[1],
+                       open: false
+                     }, {
+                       title: 'Third',
+                       icon: 'library_books',
+                       content: lorem[2],
+                       open: false
+                     }
+                   ];
+                 });
+
+h4 Settings
+ul.collection
+  li.collection-item
+    code(style="font-weight: bold;") &lt;accordion&gt;
+  li.collection-item
+    .right =true {boolean} (bound)
+    code close-others
+  li.collection-item
+    .right =false {boolean}
+    code accordion-popout
+  li.collection-item
+    code(style="font-weight: bold;") &lt;accordion-group&gt;
+  li.collection-item
+    .right =false {boolean} (bound)
+    code is-open

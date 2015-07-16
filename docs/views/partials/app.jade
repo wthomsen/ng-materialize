@@ -1,0 +1,29 @@
+header
+  .navbar-fixed
+    nav
+      .nav-wrapper.row
+        .col.s12
+          a(ng-href="/").brand-logo ng-materialize
+          ul.right.hide-on-med-and-down
+            li: a(href="#about", ng-click="scrollTo($event, 'about')") About
+            li: a(href="#getting-started", ng-click="scrollTo($event, 'getting-started')") Getting Started
+            li(dropdown)
+              a(href="#directives", dropdown-toggle)
+                | Directives
+                i.material-icons.right arrow_drop_down
+              ul.dropdown-menu
+                li(ng-repeat="directive in directives")
+                  a(ng-href="#{{directive.id}}", ng-bind="directive.name", ng-click="scrollTo($event, directive.id)")
+            li(dropdown)
+              a(href="#services", dropdown-toggle)
+                | Services
+                i.material-icons.right arrow_drop_down
+              ul.dropdown-menu
+                li(ng-repeat="service in services")
+                  a(ng-href="#{{service.id}}", ng-bind="service.name", ng-click="scrollTo($event, service.id)")
+            li: a(href="#alternatives", ng-click="scrollTo($event, 'alternatives')") Alternatives
+| <main ui-view></main>
+footer.page-footer
+  .row
+    .col.s12
+      p.grey-text.text-lighten-2 Built by <a href="http://www.twitter.com/willthomsen">Will Thomsen</a> under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.

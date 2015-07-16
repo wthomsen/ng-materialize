@@ -1,0 +1,27 @@
+// Prevent scrolling when modal is open
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal {
+  z-index: 1000;
+  transform: translate(0);
+}
+
+.lean-overlay {
+  display: block;
+  opacity: 0.5;
+
+}
+
+.modal-backdrop {
+  transition: all ease-in-out 0.25s;
+  &.ng-enter,
+  &.ng-leave.ng-leave-active {
+    opacity: 0;
+  }
+  &.ng-leave,
+  &.ng-enter.ng-enter-active {
+    opacity: 0.5;
+  }
+}

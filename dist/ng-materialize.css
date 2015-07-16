@@ -10736,8 +10736,10 @@ body.modal-open {
   display: table-cell;
   float: none;
 }
+.tabs > ul > li {
+  position: relative;
+}
 .tabs .tab-content {
-  margin-top: 2px;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   width: 100%;
   clear: both;
@@ -10786,8 +10788,10 @@ body.modal-open {
   left: 0;
 }
 .tabs .indicator {
-  top: 48px;
+  top: 46px;
   bottom: auto;
+  transition: all 0.5s cubic-bezier(0.35, 0, 0.25, 1);
+  width: auto;
 }
 .tabs .indicator.indicator-right {
   transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1), right 0.225s cubic-bezier(0.35, 0, 0.25, 1);

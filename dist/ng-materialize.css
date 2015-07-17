@@ -10739,6 +10739,25 @@ body.modal-open {
 .tabs > ul > li {
   position: relative;
 }
+.tabs > ul > li > .indicator {
+  width: 100%;
+  transition: none;
+}
+.tabs .indicator {
+  top: 46px;
+  bottom: auto;
+  left: auto;
+  right: auto;
+}
+.tabs > .indicator {
+  width: auto;
+}
+.tabs > .indicator.indicator-right {
+  transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1), right 0.225s cubic-bezier(0.35, 0, 0.25, 1);
+}
+.tabs > .indicator.indicator-left {
+  transition: left 0.225s cubic-bezier(0.35, 0, 0.25, 1), right 0.5s cubic-bezier(0.35, 0, 0.25, 1);
+}
 .tabs .tab-content {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   width: 100%;
@@ -10786,18 +10805,6 @@ body.modal-open {
   position: absolute;
   top: 0;
   left: 0;
-}
-.tabs .indicator {
-  top: 46px;
-  bottom: auto;
-  transition: all 0.5s cubic-bezier(0.35, 0, 0.25, 1);
-  width: auto;
-}
-.tabs .indicator.indicator-right {
-  transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1), right 0.225s cubic-bezier(0.35, 0, 0.25, 1);
-}
-.tabs .indicator.indicator-left {
-  transition: left 0.225s cubic-bezier(0.35, 0, 0.25, 1), right 0.5s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 .toast {

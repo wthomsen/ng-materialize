@@ -24,6 +24,27 @@
 
     >li {
       position: relative;
+      >.indicator {
+        width: 100%;
+        transition: none;
+      }
+    }
+  }
+
+  .indicator {
+    top: 46px;
+    bottom: auto;
+    left: auto;
+    right: auto;
+  }
+
+  >.indicator {
+    width: auto;
+    &.indicator-right {
+      transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1), right 0.225s cubic-bezier(0.35, 0, 0.25, 1);
+    }
+    &.indicator-left {
+      transition: left 0.225s cubic-bezier(0.35, 0, 0.25, 1), right 0.5s cubic-bezier(0.35, 0, 0.25, 1);
     }
   }
 
@@ -69,20 +90,6 @@
         top: 0;
         left: 0;
       }
-    }
-  }
-
-  .indicator {
-    top: 46px;
-    bottom: auto;
-    transition: all 0.5s cubic-bezier(0.35, 0, 0.25, 1);
-    width: auto;
-
-    &.indicator-right {
-      transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1), right 0.225s cubic-bezier(0.35, 0, 0.25, 1);
-    }
-    &.indicator-left {
-      transition: left 0.225s cubic-bezier(0.35, 0, 0.25, 1), right 0.5s cubic-bezier(0.35, 0, 0.25, 1);
     }
   }
 }

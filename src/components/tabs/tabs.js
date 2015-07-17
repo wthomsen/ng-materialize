@@ -1,12 +1,13 @@
 'use strict';
 
     angular.module('ngMaterialize.tabs', ['template/tabs/tabset.html', 'template/tabs/tab.html'])
-      .controller('TabsetController', ['$scope', '$timeout', '$animate', '$window', function ($scope, $timeout, $animate, $window) {
+      .controller('TabsetController', ['$scope', '$timeout', '$animate', '$window', '$q', function ($scope, $timeout, $animate, $window, $q) {
         var ctrl = this;
         var tabs = ctrl.tabs = $scope.tabs = [];
         var prevTab;
         var activeTab;
         var indicatorTimeout;
+        var frozen;
         $scope.reverse = false;
 
         ctrl.select = function(selectedTab) {
@@ -25,14 +26,15 @@
           });
 
           $scope.reverse = selectedTabIndex < prevTabIndex;
-
           selectedTab.onSelect();
           selectedTab.active = true;
           activeTab = selectedTab;
           if (prevTab) {
-            updateIndicator(true);
+            updateIndicator(activeTab, prevTab);
           } else {
-            $timeout(updateIndicator);
+            $timeout(function () {
+              updateIndicator(activeTab, prevTab);
+            });
           }
         };
 
@@ -79,59 +81,61 @@
           return css;
         }
 
-        function setIndicatorCss(targetTab, prevTab) {
-          var indicator = $scope.indicator[0];
-          var tabset = $scope.tabsetElement[0];
-          var targetHeading = targetTab.headingTranscludeElement.parent()[0];
-          var start = calcIndicatorCss(prevTab);
-          var end = calcIndicatorCss(targetTab);
-          var transitionFrom = {
-            width: 'auto',
-            left: start.left + 'px',
-            right: start.right + 'px'
-          };
-          var transitionTo = {
-            width: 'auto',
-            left: end.left + 'px',
-            right: end.right + 'px'
-          };
-
-          var freezeTo = {
-            width: '100%',
-            left: 'auto',
-            right: 'auto'
-          };
-
-          if (prevTab) {
-            $animate.move(indicator, tabset, undefined, {to: transitionFrom, duration: 0}).then(function () {
-              $scope.indicator.css(transitionTo);
-              $timeout.cancel(indicatorTimeout);
-              indicatorTimeout = $timeout(function () {
-                $animate.move(indicator, targetHeading, undefined, {to: freezeTo});
-              }, 500);
-            });
-          } else {
-            $animate.move(indicator, targetHeading, undefined, {to: freezeTo, duration: 0});
-          }
-
+        function unfreezeIndicator(css) {
+          return $animate.move(
+            $scope.indicator[0],
+            $scope.tabsetElement[0],
+            undefined,
+            {from: css, to: css, duration: 0}
+          ).then(function () {
+            frozen = false;
+          });
         }
 
-        function updateIndicator(animate) {
-          var toCss = calcIndicatorCss(activeTab);
-          var fromCss = prevTab ? calcIndicatorCss(prevTab) : toCss;
-          var direction = toCss.left > fromCss.left ? 'right' : 'left';
-          var transitionClass = 'indicator-' + direction;
+        function freezeIndicator(targetHeading) {
+          var css = {left: '', right: ''};
+          return $animate.move(
+            $scope.indicator[0],
+            targetHeading[0],
+            undefined,
+            {from: css, to: css}
+          ).then(function () {
+            frozen = true;
+          });
+        }
 
-          if (!animate || !prevTab || $scope.indicator.hasClass(transitionClass)) {
-            $timeout(function () {
-              setIndicatorCss(activeTab, prevTab);
-            });
-          } else {
-            $scope.indicator.toggleClass('indicator-left', direction === 'left');
-            $scope.indicator.toggleClass('indicator-right', direction === 'right');
-            $timeout(function () {
-              setIndicatorCss(activeTab, prevTab);
-            });
+        function updateIndicator(newTab, oldTab) {
+          var indicator = $scope.indicator;
+          var tabset = $scope.tabsetElement;
+          var targetHeading = newTab.headingTranscludeElement.parent();
+
+          var start = calcIndicatorCss(oldTab);
+          var end = calcIndicatorCss(newTab);
+
+          var addClass = end.left > start.left ? 'indicator-right' : 'indicator-left';
+          var removeClass = addClass === 'indicator-right' ? 'indicator-left' : 'indicator-right';
+
+          var transitionFrom = {left: start.left + 'px', right: start.right + 'px'};
+          var transitionTo = {left: end.left + 'px', right: end.right + 'px'};
+          var animating = true;
+
+          function slideIndicator() {
+            indicator.toggleClass(removeClass, false).toggleClass(addClass, true).css(transitionTo);
+            $timeout.cancel(indicatorTimeout);
+            indicatorTimeout = $timeout(function () {
+              indicator.toggleClass(removeClass, false).toggleClass(addClass, false);
+              freezeIndicator(targetHeading);
+            }, 500);
+          }
+
+          if (oldTab) {
+            if (frozen) {
+              unfreezeIndicator(transitionFrom).then(slideIndicator);
+            } else {
+              slideIndicator();
+            }
+          } else if (!frozen) {
+            freezeIndicator(targetHeading);
           }
         }
 

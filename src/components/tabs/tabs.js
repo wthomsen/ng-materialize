@@ -1,7 +1,7 @@
 'use strict';
 
     angular.module('ngMaterialize.tabs', ['template/tabs/tabset.html', 'template/tabs/tab.html'])
-      .controller('TabsetController', ['$scope', '$timeout', '$animate', '$window', '$q', function ($scope, $timeout, $animate, $window, $q) {
+      .controller('TabsetController', ['$scope', '$timeout', '$animate', function ($scope, $timeout, $animate) {
         var ctrl = this;
         var tabs = ctrl.tabs = $scope.tabs = [];
         var prevTab;
@@ -74,6 +74,7 @@
               if (tab !== targetTab) {
                 css.left += tabWidth;
               } else {
+                css.tabWidth = tabWidth;
                 tabFound = true;
               }
             }
@@ -109,17 +110,19 @@
           var tabset = $scope.tabsetElement;
           var targetHeading = newTab.headingTranscludeElement.parent();
 
-          var start = calcIndicatorCss(oldTab);
           var end = calcIndicatorCss(newTab);
+          var start = calcIndicatorCss(oldTab);
 
           var addClass = end.left > start.left ? 'indicator-right' : 'indicator-left';
           var removeClass = addClass === 'indicator-right' ? 'indicator-left' : 'indicator-right';
-
-          var transitionFrom = {left: start.left + 'px', right: start.right + 'px'};
-          var transitionTo = {left: end.left + 'px', right: end.right + 'px'};
+          var transitionFrom = {left: start.left + 'px', right: 'calc(100% - ' + (start.left + start.tabWidth) + 'px)'};
           var animating = true;
 
           function slideIndicator() {
+
+            end = calcIndicatorCss(newTab);
+            var transitionTo = {left: end.left + 'px', right: 'calc(100% - ' + (end.left + end.tabWidth) + 'px)'};
+
             indicator.toggleClass(removeClass, false).toggleClass(addClass, true).css(transitionTo);
             $timeout.cancel(indicatorTimeout);
             indicatorTimeout = $timeout(function () {
@@ -285,10 +288,10 @@ angular.module('template/tabs/tabset.html', []).run(['$templateCache', function(
   $templateCache.put('template/tabs/tabset.html',
     '<div class="tabs">\n' +
     '  <ul ng-transclude ng-class="{\'tabs-justified\': justified}"></ul>\n' +
-    '  <div class="tab-content">\n' +
+    '  <div class="tab-content" ng-show="!noContent">\n' +
     '    <div class="tab-pane" \n' +
     '         ng-repeat="tab in tabs" \n' +
-    '         ng-show="tab.active && !noContent"\n' +
+    '         ng-show="tab.active"\n' +
     '         ng-class="{\'tab-reverse\': reverse}"\n' +
     '         tab-content-transclude="tab">\n' +
     '    </div>\n' +
